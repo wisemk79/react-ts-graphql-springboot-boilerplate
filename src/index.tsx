@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from '@apollo/client';
+import { ApolloClient } from '@apollo/client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
-const SERVER_URL = "https://48p1r2roz4.sse.codesandbox.io";
-const cache = new InMemoryCache({});
+
+const SERVER_URL = "http://localhost:4000/";
+const cache = new InMemoryCache({}) as any;
 
 const link = ApolloLink.from([
   onError(({ graphQLErrors, networkError }) => {
@@ -21,18 +22,16 @@ const link = ApolloLink.from([
   }),
   new HttpLink({
     uri: SERVER_URL,
-    // For server with deifferent domain use "include"
-    credentials: 'same-origin',
+    // For server with different domain use "include"
+    credentials: 'include',
   }),
-]);
+]) as any;
 
 const client = new ApolloClient({
   link,
-  cache,
-});
-// const client = new ApolloClient({
-//     uri: 'https://48p1r2roz4.sse.codesandbox.io',
-//   });
+  cache
+}) as any;
+
 ReactDOM.render(
     <ApolloProvider client={client}>
         <App/>

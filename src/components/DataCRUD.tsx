@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+// import { GET_USERS, INSERT_USER, DELETE_USER, UPDATE_USER } from '../query/crudQuery';
+import { gql } from 'apollo-boost';
 
 interface DataSendProps {
 }
@@ -9,7 +12,51 @@ const DataSend: React.FunctionComponent<DataSendProps> = () => {
      * State
      */
     const [id, setId] = useState(0);
-    const [data, setData] = useState("");
+    const [name, setName] = useState("");
+    const GET_HELLO = gql`
+    query hello($name: String!) {
+      hello(name: $name)
+    }
+  `;
+    /**
+     * useEffect
+     */
+    useEffect(() => {
+        console.log(data)
+    }, [])
+
+    /**
+     * Query
+     */
+    const { data, error, loading } = useQuery(GET_HELLO, {
+        variables: {
+            name: "Jack"
+        }
+    });
+    
+
+    /**
+     * Mutation
+     */
+    // const insertUser = useMutation(INSERT_USER, {
+    //     variables: {
+    //         id,
+    //         name
+    //     }
+    // });
+    // const updateUser = useMutation(UPDATE_USER, {
+    //     variables: {
+    //         id,
+    //         name
+    //     }
+    // });
+    // const deleteUser = useMutation(DELETE_USER, {
+    //     variables: {
+    //         id
+    //     }
+    // });
+
+
 
     /**
      * Methods
@@ -36,7 +83,7 @@ const DataSend: React.FunctionComponent<DataSendProps> = () => {
                         Insert Mutation Id: <input type="number" value={id} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(parseInt(e.target.value))}/>
                     </div>
                     <div>
-                        Insert Mutation Data: <input type="text" value={data} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData(e.target.value)}/>
+                        Insert Mutation Name: <input type="text" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
                     </div>
                     <button type="button" onClick={handleInsert}>Insert</button>                
                 </div>
@@ -45,7 +92,7 @@ const DataSend: React.FunctionComponent<DataSendProps> = () => {
                         Update Mutation Id: <input type="number" value={id} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId(parseInt(e.target.value))}/>
                     </div>
                     <div>
-                        Update Mutation Data: <input type="text" value={data} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData(e.target.value)}/>
+                        Update Mutation Name: <input type="text" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
                     </div>
                     <button type="button" onClick={handleUpdate}>Update</button>                
                 </div>
